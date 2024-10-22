@@ -66,6 +66,8 @@ message DeleteProductResponse {
 
 message UpdateProductRequest {
     Product product = 1;  
+    string productId = 2;
+    string category = 3;
 }
 
 message UpdateProductResponse {
