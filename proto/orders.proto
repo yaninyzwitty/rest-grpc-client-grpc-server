@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package ecommerce;
+
+// Represents an order in the e-commerce system
+message Order {
+    string id = 1;           // Unique identifier for the order
+    string product_id = 2;   // ID of the product being ordered
+    int32 quantity = 3;      // Quantity of the product ordered
+    string customer_id = 4;  // ID of the customer who placed the order
+    google.protobuf.Timestamp created_at = 5; // Timestamp of when the order was created
+    google.protobuf.Timestamp updated_at = 6; // Timestamp of when the order was last updated
+}
+
+// Request message for creating a new order
+message CreateOrderRequest {
+    string product_id = 1;   // ID of the product to order
+    int32 quantity = 2;      // Quantity of the product to order
+    string customer_id = 3;  // ID of the customer placing the order
+}
+
+// Response message for creating a new order
+message CreateOrderResponse {
+    Order order = 1;         // The created order
+    bool success = 2;        // Indicates success of the creation
+}
+
+// Request message for deleting an order
+message DeleteOrderRequest {
+    string order_id = 1;     // ID of the order to delete
+}
+
+// Response message for deleting an order
+message DeleteOrderResponse {
+    bool success = 1;        // Indicates whether the deletion was successful
+    string message = 2;      // Optional message providing additional context
+}
+
+// Request message for updating an order
+message UpdateOrderRequest {
+    Order order = 1;         // Order object containing updated information
+}
+
+// Response message for updating an order
+message UpdateOrderResponse {
+    bool success = 1;        // Indicates whether the update was successful
+    string message = 2;      // Optional message providing additional context
+}
+
+// Defines the order service with various RPC methods
+service OrderService {
+    rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+    rpc DeleteOrder(DeleteOrderRequest) returns (DeleteOrderResponse);
+    rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);
+}

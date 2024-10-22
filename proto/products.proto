@@ -1,0 +1,85 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+
+
+option go_package = "./pb";
+
+package ecommerce;
+
+message Product {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    double price = 4;
+    int32 stock = 5;
+    string category = 6; 
+    google.protobuf.Timestamp created_at = 7; 
+    google.protobuf.Timestamp updated_at = 8; 
+
+}
+
+message CreateProductRequest {
+    string name = 1;
+    string description = 2;
+    double price = 3;
+    int32 stock = 4;
+    string category = 5; 
+}
+
+message GetProductRequest {
+    string category = 1;
+    string product_id = 2;
+}
+
+message GetProductResponse {
+    Product product = 1;
+}
+
+message ListProductsRequest {
+    int32 limit = 1;
+    bytes paging_state = 2;
+    string category = 3;
+}
+
+message ListProductsResponse {
+    repeated Product products = 1;
+    bytes paging_state = 2;
+}
+
+
+message CreateProductResponse {
+    Product product = 1;
+    bool success = 2;
+}
+
+
+message DeleteProductRequest {
+    string category = 1;
+    string product_id = 2;
+}
+
+message DeleteProductResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message UpdateProductRequest {
+    Product product = 1;  
+}
+
+message UpdateProductResponse {
+    bool success = 1;      
+    string message = 2;   
+}
+
+
+
+service ProductService {
+    rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse);
+    rpc GetProduct(GetProductRequest) returns (GetProductResponse);
+    rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
+    rpc ListProducts(ListProductsRequest) returns (ListProductsResponse); 
+    rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse); 
+
+}

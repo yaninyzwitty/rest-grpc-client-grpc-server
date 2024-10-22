@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package ecommerce;
+
+// Represents a customer in the e-commerce system
+message Customer {
+    string id = 1;          // Unique identifier for the customer
+    string name = 2;        // Name of the customer
+    string email = 3;       // Email address of the customer
+    google.protobuf.Timestamp created_at = 5; // Timestamp of when the customer was created
+    google.protobuf.Timestamp updated_at = 6; // Timestamp of when the customer was last updated
+}
+
+// Request message for creating a new customer
+message CreateCustomerRequest {
+    string name = 1;        // Name of the customer
+    string email = 2;       // Email address of the customer
+}
+
+// Response message for creating a new customer
+message CreateCustomerResponse {
+    Customer customer = 1;  // The created customer
+    bool success = 2;       // Indicates success of the creation
+}
+
+// Request message for deleting a customer
+message DeleteCustomerRequest {
+    string customer_id = 1; // ID of the customer to delete
+}
+
+// Response message for deleting a customer
+message DeleteCustomerResponse {
+    bool success = 1;       // Indicates whether the deletion was successful
+    string message = 2;     // Optional message providing additional context
+}
+
+// Defines the customer service with various RPC methods
+service CustomerService {
+    rpc CreateCustomer(CreateCustomerRequest) returns (CreateCustomerResponse);
+    rpc DeleteCustomer(DeleteCustomerRequest) returns (DeleteCustomerResponse);
+}
