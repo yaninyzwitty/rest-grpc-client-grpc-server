@@ -1,7 +1,6 @@
 server:
   port: 50051
 database:
-  hosts: localhost
-  client_id: bKxxRwETgYxWHRTYQnsvbNBp
-  secret: K4XdFZ.R_XO.wUCvpR00oSNxkQXN_PBzGPZQpROEd0ouLnZQZOQZli6L6wbvKOJQhQ0UdKJBqxgc9eP67XdWCBis0,Cl6Ly3ZvsnQ9uxZGMWfo4d,uD3tm-zjWEgAlRD
-  token: AstraCS:bKxxRwETgYxWHRTYQnsvbNBp:fdcd590fd50cd48ab4eb73abdd583de38e92c724092eaac43868c99294b8ae37
+  path: "./secure-connect.zip"
+  username: token
+  password: AstraCS:bKxxRwETgYxWHRTYQnsvbNBp:fdcd590fd50cd48ab4eb73abdd583de38e92c724092eaac43868c99294b8ae37

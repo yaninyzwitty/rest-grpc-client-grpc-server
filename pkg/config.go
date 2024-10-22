@@ -17,7 +17,9 @@ type Srv struct {
 }
 
 type DB struct {
-	HOSTS string `yaml:"hosts"` // separated by comma in the yaml
+	Path      string `yaml:"path"`
+	Username  string `yaml:"username"`
+	Passsword string `yaml:"password"`
 }
 
 func (c *Config) LoadConfig(file io.Reader) error {
