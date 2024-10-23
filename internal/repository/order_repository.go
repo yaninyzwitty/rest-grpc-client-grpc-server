@@ -8,6 +8,9 @@ import (
 )
 
 type OrderRepository interface {
+	CreateOrder(ctx context.Context, order models.Order) (*models.Order, error)
+	DeleteOrder(ctx context.Context, orderId gocql.UUID) (bool, error)
+	UpdateOrder(ctx context.Context, order models.Order, orderId gocql.UUID) (*models.Order, error)
 }
 
 type orderRepository struct {
@@ -19,7 +22,7 @@ func NewOrderRepository(session *gocql.Session) OrderRepository {
 }
 
 func (r *orderRepository) CreateOrder(ctx context.Context, order models.Order) (*models.Order, error) {
-	return nil, nil
+	return &models.Order{}, nil
 }
 
 func (r *orderRepository) DeleteOrder(ctx context.Context, orderId gocql.UUID) (bool, error) {
@@ -27,5 +30,5 @@ func (r *orderRepository) DeleteOrder(ctx context.Context, orderId gocql.UUID) (
 }
 
 func (r *orderRepository) UpdateOrder(ctx context.Context, order models.Order, orderId gocql.UUID) (*models.Order, error) {
-	return nil, nil
+	return &models.Order{}, nil
 }
