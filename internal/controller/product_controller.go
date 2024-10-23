@@ -32,6 +32,6 @@ func (c *ProductController) ListProducts(ctx context.Context, req *pb.ListProduc
 	return nil, nil
 }
 
-func (c *ProductController) UpdateProduct(ctx context.Context, req *pb.UpdateOrderRequest) (*pb.UpdateProductResponse, error) {
+func (c *ProductController) UpdateProduct(ctx context.Context, req *pb.UpdateProductRequest) (*pb.UpdateProductResponse, error) {
 	return nil, nil
 }
