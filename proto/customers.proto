@@ -38,8 +38,17 @@ message DeleteCustomerResponse {
     string message = 2;     // Optional message providing additional context
 }
 
+message GetCustomerRequest {
+    string customer_id = 1;
+}
+
+message GetCustomerResponse {
+    Customer customer = 1; 
+}
+
 // Defines the customer service with various RPC methods
 service CustomerService {
     rpc CreateCustomer(CreateCustomerRequest) returns (CreateCustomerResponse);
     rpc DeleteCustomer(DeleteCustomerRequest) returns (DeleteCustomerResponse);
+    rpc GetCustomer(GetCustomerRequest) returns (GetCustomerResponse);
 }

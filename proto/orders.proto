@@ -45,6 +45,13 @@ message UpdateOrderRequest {
     string orderId = 2;
 }
 
+message GetOrderRequest {
+    string order_id = 1;
+}
+
+message GetOrderResponse {
+    Order order = 1;
+}
 // Response message for updating an order
 message UpdateOrderResponse {
     bool success = 1;        // Indicates whether the update was successful
@@ -55,5 +62,6 @@ message UpdateOrderResponse {
 service OrderService {
     rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
     rpc DeleteOrder(DeleteOrderRequest) returns (DeleteOrderResponse);
+    rpc Getorder(GetOrderRequest) returns (GetOrderResponse);
     rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);
 }
