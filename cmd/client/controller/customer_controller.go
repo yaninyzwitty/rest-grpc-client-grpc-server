@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/gocql/gocql"
 	"github.com/yaninyzwitty/golang-rest-grpc-proj/cmd/client/models"
+	"github.com/yaninyzwitty/golang-rest-grpc-proj/helpers"
 	"github.com/yaninyzwitty/golang-rest-grpc-proj/pb"
 )
 
@@ -24,8 +26,41 @@ func (c *CustomerController) CreateCustomer(w http.ResponseWriter, r *http.Reque
 		return
 
 	}
+	if customer.Name == "" || customer.Email == "" {
+		http.Error(w, "Name and email cant be missing", http.StatusBadRequest)
+		return
+	}
 
-	createCustomer, err := c.client
+	createUserReq := &pb.CreateCustomerRequest{
+		Name:  customer.Name,
+		Email: customer.Email,
+	}
+
+	createdCustomer, err := c.client.CreateCustomer(ctx, createUserReq)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	createdCustomerID, err := gocql.ParseUUID(createdCustomer.Customer.Id)
+	if err != nil {
+		http.Error(w, err.Error()+"error parsing uuid", http.StatusInternalServerError)
+		return
+
+	}
+
+	createdAt := helpers.ProtoToTime(createdCustomer.Customer.CreatedAt)
+	updatedAt := helpers.ProtoToTime(createdCustomer.Customer.UpdatedAt)
+
+	createCustomerInjSON := models.Customer{
+		ID:        createdCustomerID,
+		Name:      createdCustomer.Customer.Name,
+		Email:     createdCustomer.Customer.Email,
+		CreatedAt: createdAt,
+		UpdatedAt: updatedAt,
+	}
+
+	// marshal created customer to json and return it
 
 }
 func (c *CustomerController) DeleteCustomer(w http.ResponseWriter, r *http.Request) {
