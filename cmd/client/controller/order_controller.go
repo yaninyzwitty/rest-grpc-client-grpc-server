@@ -3,15 +3,15 @@ package controller
 import (
 	"net/http"
 
-	"google.golang.org/grpc"
+	"github.com/yaninyzwitty/golang-rest-grpc-proj/pb"
 )
 
 type OrderController struct {
-	conn *grpc.ClientConn
+	client pb.OrderServiceClient
 }
 
-func NewOrderController(conn *grpc.ClientConn) *OrderController {
-	return &OrderController{conn: conn}
+func NewOrderController(client pb.OrderServiceClient) *OrderController {
+	return &OrderController{client: client}
 }
 
 func (c *OrderController) CreateOrder(w http.ResponseWriter, r *http.Request) {

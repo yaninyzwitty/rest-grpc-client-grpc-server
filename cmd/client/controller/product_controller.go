@@ -3,15 +3,15 @@ package controller
 import (
 	"net/http"
 
-	"google.golang.org/grpc"
+	"github.com/yaninyzwitty/golang-rest-grpc-proj/pb"
 )
 
 type ProductController struct {
-	conn *grpc.ClientConn
+	client pb.ProductServiceClient
 }
 
-func NewProductController(conn *grpc.ClientConn) *ProductController {
-	return &ProductController{conn: conn}
+func NewProductController(client pb.ProductServiceClient) *ProductController {
+	return &ProductController{client: client}
 }
 
 func (c *ProductController) CreateProduct(w http.ResponseWriter, r *http.Request) {

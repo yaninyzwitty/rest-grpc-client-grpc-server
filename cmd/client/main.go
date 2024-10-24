@@ -11,6 +11,7 @@ import (
 
 	"github.com/yaninyzwitty/golang-rest-grpc-proj/cmd/client/controller"
 	"github.com/yaninyzwitty/golang-rest-grpc-proj/cmd/client/router"
+	"github.com/yaninyzwitty/golang-rest-grpc-proj/pb"
 	"github.com/yaninyzwitty/golang-rest-grpc-proj/pkg"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -39,9 +40,17 @@ func main() {
 	}
 	defer conn.Close()
 
-	orderController := controller.NewOrderController(conn)
-	customerController := controller.NewCustomerController(conn)
-	productController := controller.NewProductController(conn)
+	// create service clients
+
+	orderClient := pb.NewOrderServiceClient(conn)
+	customerClient := pb.NewCustomerServiceClient(conn)
+	productClient := pb.NewProductServiceClient(conn)
+
+	// inject here 💉
+
+	orderController := controller.NewOrderController(orderClient)
+	customerController := controller.NewCustomerController(customerClient)
+	productController := controller.NewProductController(productClient)
 	mux := router.NewRouter(productController, orderController, customerController)
 	server := &http.Server{
 		Addr:    ":" + fmt.Sprintf("%d", cfg.Server.PORT),
