@@ -14,15 +14,11 @@ func NewOrderController(conn *grpc.ClientConn) *OrderController {
 	return &OrderController{conn: conn}
 }
 
-func (c *OrderController) CreateOrder(w http.ResponseWriter, r *http.Request) error {
-	return nil
+func (c *OrderController) CreateOrder(w http.ResponseWriter, r *http.Request) {
 }
-func (c *OrderController) DeleteOrder(w http.ResponseWriter, r *http.Request) error {
-	return nil
+func (c *OrderController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 }
-func (c *OrderController) Getorder(w http.ResponseWriter, r *http.Request) error {
-	return nil
+func (c *OrderController) Getorder(w http.ResponseWriter, r *http.Request) {
 }
-func (c *OrderController) UpdateOrder(w http.ResponseWriter, r *http.Request) error {
-	return nil
+func (c *OrderController) UpdateOrder(w http.ResponseWriter, r *http.Request) {
 }

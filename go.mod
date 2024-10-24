@@ -4,6 +4,8 @@ go 1.22.1
 
 require (
 	github.com/datastax/gocql-astra v0.0.0-20240612111451-db7831681c24
+	github.com/go-chi/chi/v5 v5.1.0
+	github.com/go-chi/cors v1.2.1
 	github.com/gocql/gocql v1.7.0
 	google.golang.org/grpc v1.67.1
 	google.golang.org/protobuf v1.35.1
