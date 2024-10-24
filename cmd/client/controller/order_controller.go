@@ -158,7 +158,12 @@ func (c *OrderController) UpdateOrder(w http.ResponseWriter, r *http.Request) {
 	var order models.Order
 	var ctx = r.Context()
 	var id = chi.URLParam(r, "id")
-	defer r.Body.Close()
+
+	if id == "" {
+		http.Error(w, "Missing order id", http.StatusBadRequest)
+		return
+
+	}
 
 	if err := json.NewDecoder(r.Body).Decode(&order); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
