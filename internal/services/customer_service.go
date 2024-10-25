@@ -11,6 +11,7 @@ import (
 type CustomerService interface {
 	CreateCustomer(ctx context.Context, customer models.Customer) (*models.Customer, error)
 	DeleteCustomer(ctx context.Context, customerId gocql.UUID) (bool, error)
+	GetCustomer(ctx context.Context, customerID gocql.UUID) (*models.Customer, error)
 }
 
 type customerService struct {
@@ -26,4 +27,7 @@ func (s *customerService) CreateCustomer(ctx context.Context, customer models.Cu
 }
 func (s *customerService) DeleteCustomer(ctx context.Context, customerID gocql.UUID) (bool, error) {
 	return false, nil
+}
+func (s *customerService) GetCustomer(ctx context.Context, customerID gocql.UUID) (*models.Customer, error) {
+	return nil, nil
 }

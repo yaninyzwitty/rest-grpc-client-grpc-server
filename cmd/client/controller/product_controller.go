@@ -272,6 +272,5 @@ func (c *ProductController) UpdateProduct(w http.ResponseWriter, r *http.Request
 			return
 		}
 	}
-	return
 
 }
