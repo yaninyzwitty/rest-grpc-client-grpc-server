@@ -11,6 +11,7 @@ import (
 type OrderService interface {
 	CreateOrder(ctx context.Context, order models.Order) (*models.Order, error)
 	DeleteOrder(ctx context.Context, orderId gocql.UUID) (bool, error)
+	GetOrder(ctx context.Context, orderId gocql.UUID) (*models.Order, error)
 	UpdateOrder(ctx context.Context, order models.Order, orderId gocql.UUID) (*models.Order, error)
 }
 
@@ -32,4 +33,7 @@ func (s *orderService) DeleteOrder(ctx context.Context, orderId gocql.UUID) (boo
 
 func (s *orderService) UpdateOrder(ctx context.Context, order models.Order, orderId gocql.UUID) (*models.Order, error) {
 	return s.repo.UpdateOrder(ctx, order, orderId)
+}
+func (s *orderService) GetOrder(ctx context.Context, orderId gocql.UUID) (*models.Order, error) {
+	return s.repo.GetOrder(ctx, orderId)
 }
