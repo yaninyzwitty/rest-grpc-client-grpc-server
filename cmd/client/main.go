@@ -31,7 +31,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	address := fmt.Sprintf(":%d", 50051)
+	address := fmt.Sprintf(":%d", cfg.Client.GRPC_PORT)
 	conn, err := grpc.NewClient(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		slog.Error("failed to create a grpc conn", "error", err)
@@ -53,7 +53,7 @@ func main() {
 	productController := controller.NewProductController(productClient)
 	mux := router.NewRouter(productController, orderController, customerController)
 	server := &http.Server{
-		Addr:    ":" + fmt.Sprintf("%d", cfg.Server.PORT),
+		Addr:    ":" + fmt.Sprintf("%d", cfg.Client.REST_PORT),
 		Handler: mux,
 	}
 	go func() {
@@ -63,7 +63,8 @@ func main() {
 		}
 
 	}()
-	slog.Info("Server is running at port", "port", cfg.Server.PORT)
+	slog.Info("REST Server is running at port", "port", cfg.Client.REST_PORT)
+	slog.Info("GRPC CLIENT Server is running at port", "port", cfg.Client.GRPC_PORT)
 
 	quitCH := make(chan os.Signal, 1)
 	signal.Notify(quitCH, os.Interrupt)

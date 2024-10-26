@@ -1,5 +1,8 @@
 server:
   port: 50051
+client:
+  rest: 8080
+  grpc: 50051
 database:
   path: "./secure-connect.zip"
   username: token

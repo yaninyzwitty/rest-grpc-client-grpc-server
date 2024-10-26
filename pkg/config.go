@@ -8,12 +8,17 @@ import (
 )
 
 type Config struct {
-	Server   Srv `yaml:"server"`
-	Database DB  `yaml:"database"`
+	Server   Srv    `yaml:"server"`
+	Database DB     `yaml:"database"`
+	Client   Client `yaml:"client"`
 }
 
 type Srv struct {
 	PORT int `yaml:"port"`
+}
+type Client struct {
+	REST_PORT int `yaml:"rest"`
+	GRPC_PORT int `yaml:"grpc"`
 }
 
 type DB struct {

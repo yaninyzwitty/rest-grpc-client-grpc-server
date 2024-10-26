@@ -25,6 +25,7 @@ func NewProductService(repo repository.ProductRepository) ProductService {
 }
 
 func (s *productService) CreateProduct(ctx context.Context, product models.Product) (*models.Product, error) {
+
 	return s.repo.CreateProduct(ctx, product)
 }
 

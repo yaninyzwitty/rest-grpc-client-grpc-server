@@ -50,7 +50,7 @@ func main() {
 	slog.Info("Connected to ASTRA succesfully🚀")
 
 	defer db.Close()
-	lis, err := net.Listen("tcp", fmt.Sprintf("%d", cfg.Server.PORT))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 50051))
 	if err != nil {
 		slog.Error("Failed to listen", "error", err)
 		os.Exit(1)
@@ -94,7 +94,7 @@ func main() {
 		slog.Info("gRPC server has been stopped gracefully")
 	}()
 
-	slog.Info("Starting gRPC server", "port", cfg.Server.PORT)
+	slog.Info("Starting gRPC server", "port", 50051)
 	if err := server.Serve(lis); err != nil {
 		slog.Error("gRPC server encountered an error while serving", "error", err)
 		os.Exit(1)
