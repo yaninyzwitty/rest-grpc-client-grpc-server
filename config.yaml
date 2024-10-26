@@ -1,9 +1,0 @@
-server:
-  port: 50051
-client:
-  rest: 8080
-  grpc: 50051
-database:
-  path: "./secure-connect.zip"
-  username: token
-  password: AstraCS:bKxxRwETgYxWHRTYQnsvbNBp:fdcd590fd50cd48ab4eb73abdd583de38e92c724092eaac43868c99294b8ae37
