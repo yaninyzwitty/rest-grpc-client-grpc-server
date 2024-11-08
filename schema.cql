@@ -17,13 +17,15 @@ CREATE TABLE IF NOT EXISTS customers (
 );
 
 CREATE TABLE IF NOT EXISTS products(
-    id UUID PRIMARY KEY,
+    id TIMEUUID ,
     name TEXT,
     description TEXT,
     price INT,
     stock INT,
     category TEXT,
     created_at TIMESTAMP,
-    updated_at TIMESTAMP
+    updated_at TIMESTAMP,
+    PRIMARY KEY (category, id)
+
 
 );

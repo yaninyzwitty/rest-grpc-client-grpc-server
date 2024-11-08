@@ -130,12 +130,10 @@ func (c *ProductController) UpdateProduct(ctx context.Context, req *pb.UpdatePro
 		UpdatedAt:   time.Now(),
 	}
 
-	updateProduct, err := c.service.UpdateProducts(ctx, *product, productId, req.Category)
+	_, err = c.service.UpdateProducts(ctx, *product, productId, req.Category)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, fmt.Sprintf("failed to update product: %v", err))
 	}
-
-	fmt.Print(updateProduct.Name)
 
 	return &pb.UpdateProductResponse{
 		Success: true,

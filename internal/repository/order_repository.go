@@ -24,7 +24,7 @@ func NewOrderRepository(session *gocql.Session) OrderRepository {
 }
 
 func (r *orderRepository) CreateOrder(ctx context.Context, order models.Order) (*models.Order, error) {
-	query := `INSERT INTO ecommerce.orders (id, product_id, quantity, customer_id, created_at, updated_at) VALUES(?, ?, ?, ?, ?, ?)`
+	query := `INSERT INTO eccomerce.orders (id, product_id, quantity, customer_id, created_at, updated_at) VALUES(?, ?, ?, ?, ?, ?)`
 	err := r.session.Query(query, order.ID, order.ProductID, order.Quantity, order.CustomerID, order.CreatedAt, order.UpdatedAt).Exec()
 	if err != nil {
 		return nil, fmt.Errorf("failed to insert data: %v", err)
@@ -50,7 +50,7 @@ func (r *orderRepository) UpdateOrder(ctx context.Context, order models.Order, o
 }
 func (r *orderRepository) GetOrder(ctx context.Context, orderId gocql.UUID) (*models.Order, error) {
 	var order models.Order
-	query := `SELECT id, product_id, quantity, customer_id, updated_at, created_at FROM orders WHERE id = ?`
+	query := `SELECT id, product_id, quantity, customer_id, updated_at, created_at FROM eccomerce.orders WHERE id = ?`
 
 	// Execute the query and scan the result into the order variable
 	err := r.session.Query(query, orderId).Consistency(gocql.One).Scan(

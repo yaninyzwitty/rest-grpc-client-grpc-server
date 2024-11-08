@@ -89,8 +89,36 @@ func (c *OrderController) DeleteOrder(ctx context.Context, req *pb.DeleteOrderRe
 }
 
 func (c *OrderController) UpdateOrder(ctx context.Context, req *pb.UpdateOrderRequest) (*pb.UpdateOrderResponse, error) {
+	orderId, err := gocql.ParseUUID(req.OrderId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("failed to parse order id into uuid: %v ", err))
+	}
+	productId, err := gocql.ParseUUID(req.Order.ProductId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("failed to parse product id into uuid: %v ", err))
+	}
+	customerId, err := gocql.ParseUUID(req.Order.CustomerId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("failed to parse customer id into uuid: %v ", err))
+	}
+	order := models.Order{
+		ID:         orderId,
+		ProductID:  productId,
+		CustomerID: customerId,
+		Quantity:   uint32(req.Order.Quantity),
+		CreatedAt:  time.Now(),
+		UpdatedAt:  time.Now(),
+	}
+	_, err = c.service.UpdateOrder(ctx, order, orderId)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, fmt.Sprintf("failed to update order: %v", err))
+	}
 
-	return nil, nil
+	return &pb.UpdateOrderResponse{
+		Message: "Order updated succesfully",
+		Success: true,
+	}, nil
+
 }
 
 func (c *OrderController) GetOrder(ctx context.Context, req *pb.GetOrderRequest) (*pb.GetOrderResponse, error) {

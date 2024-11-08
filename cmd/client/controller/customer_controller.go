@@ -22,11 +22,11 @@ func NewCustomerController(client pb.CustomerServiceClient) *CustomerController 
 
 func (c *CustomerController) CreateCustomer(w http.ResponseWriter, r *http.Request) {
 	var customer models.Customer
+	defer r.Body.Close()
 	var ctx = r.Context()
 
-	defer r.Body.Close()
 	if err := json.NewDecoder(r.Body).Decode(&customer); err != nil {
-		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 
 	}
@@ -42,7 +42,7 @@ func (c *CustomerController) CreateCustomer(w http.ResponseWriter, r *http.Reque
 
 	createdCustomer, err := c.client.CreateCustomer(ctx, createUserReq)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("failed to create customer: %v", err), http.StatusBadRequest)
 		return
 	}
 
@@ -56,13 +56,14 @@ func (c *CustomerController) CreateCustomer(w http.ResponseWriter, r *http.Reque
 	createdAt := helpers.ProtoToTime(createdCustomer.Customer.CreatedAt)
 	updatedAt := helpers.ProtoToTime(createdCustomer.Customer.UpdatedAt)
 
-	createCustomerInjSON := models.Customer{
+	createCustomerInjSON := &models.Customer{
 		ID:        createdCustomerID,
 		Name:      createdCustomer.Customer.Name,
 		Email:     createdCustomer.Customer.Email,
 		CreatedAt: createdAt,
 		UpdatedAt: updatedAt,
 	}
+
 	// marshal created customer to json and return it
 
 	err = helpers.ConvertStructToJson(w, http.StatusCreated, createCustomerInjSON)

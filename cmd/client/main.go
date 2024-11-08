@@ -64,7 +64,7 @@ func main() {
 
 	}()
 	slog.Info("REST Server is running at port", "port", cfg.Client.REST_PORT)
-	slog.Info("GRPC CLIENT Server is running at port", "port", cfg.Client.GRPC_PORT)
+	slog.Info("GRPC CLIENT  is running at port", "port", cfg.Client.GRPC_PORT)
 
 	quitCH := make(chan os.Signal, 1)
 	signal.Notify(quitCH, os.Interrupt)

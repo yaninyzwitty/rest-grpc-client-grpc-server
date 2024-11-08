@@ -34,6 +34,7 @@ func (c *CustomerController) CreateCustomer(ctx context.Context, req *pb.CreateC
 	}
 
 	createdCustomer, err := c.service.CreateCustomer(ctx, customer)
+
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, fmt.Sprintf("failed to create customer: %v", err))
 	}
@@ -49,7 +50,6 @@ func (c *CustomerController) CreateCustomer(ctx context.Context, req *pb.CreateC
 			CreatedAt: createdTimeInProto,
 			UpdatedAt: updatedTimeInProto,
 		},
-		Success: true,
 	}, nil
 
 }

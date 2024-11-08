@@ -26,15 +26,20 @@ func NewProductRepository(session *gocql.Session) ProductRepository {
 
 func (r *productRepository) CreateProduct(ctx context.Context, product models.Product) (*models.Product, error) {
 	query := `INSERT INTO eccomerce.products (id, name, description, price, stock, category, created_at, updated_at) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`
-	err := r.session.Query(query, product.ID, product.Name, product.Description, product.Price, product.Stock, product.Category, product.CreatedAt, product.UpdatedAt)
+
+	// Execute the query
+	err := r.session.Query(query, product.ID, product.Name, product.Description, product.Price, product.Stock, product.Category, product.CreatedAt, product.UpdatedAt).Exec()
 	if err != nil {
 		return nil, fmt.Errorf("failed to insert product: %v", err)
 	}
+
+	// Return the created product
 	return &product, nil
 }
+
 func (r *productRepository) GetProduct(ctx context.Context, category string, productId gocql.UUID) (*models.Product, error) {
 	var product models.Product
-	query := `SELECT id, name, description, price, stock, category, created_at, updated_at FROM ecommerce.products WHERE id = ? AND category = ?`
+	query := `SELECT id, name, description, price, stock, category, created_at, updated_at FROM eccomerce.products WHERE id = ? AND category = ?`
 
 	// Execute the query and scan the result into the product struct
 	if err := r.session.Query(query, productId, category).Consistency(gocql.One).Scan(
@@ -58,8 +63,8 @@ func (r *productRepository) GetProduct(ctx context.Context, category string, pro
 }
 
 func (r *productRepository) DeleteProduct(ctx context.Context, category string, productId gocql.UUID) (bool, error) {
-	query := `DELETE FROM eccomerce.products WHERE id = ?`
-	err := r.session.Query(query, productId).Exec()
+	query := `DELETE FROM eccomerce.products WHERE category = ? AND id = ?`
+	err := r.session.Query(query, category, productId).Exec()
 	if err != nil {
 		return false, fmt.Errorf("failed to delete product: %v", err)
 	}
@@ -71,13 +76,14 @@ func (r *productRepository) ListProducts(ctx context.Context, limit int, paging_
 }
 
 func (r *productRepository) UpdateProducts(ctx context.Context, product models.Product, productId gocql.UUID, category string) (*models.Product, error) {
-	query := `UPDATE ecommerce.products SET price = ?, stock = ?, name = ?, description = ?, updated_at = ?, WHERE id = ? AND category = ?`
+	query := `UPDATE eccomerce.products SET price = ?, stock = ?, name = ?, description = ?, updated_at = ? WHERE id = ? AND category = ?`
 
 	// Execute the update query
 	if err := r.session.Query(query, product.Price, product.Stock, product.Name, product.Description, product.UpdatedAt, productId, category).Exec(); err != nil {
 		return nil, fmt.Errorf("failed to update product with id %s: %w", productId, err)
 	}
 
-	// Return the updated product
 	return &product, nil
 }
+
+// /products/{productId}/category/{categoryName}

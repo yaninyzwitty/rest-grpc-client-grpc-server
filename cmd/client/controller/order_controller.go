@@ -115,7 +115,7 @@ func (c *OrderController) Getorder(w http.ResponseWriter, r *http.Request) {
 		OrderId: id,
 	}
 
-	order, err := c.client.Getorder(ctx, getOrderReq)
+	order, err := c.client.GetOrder(ctx, getOrderReq)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

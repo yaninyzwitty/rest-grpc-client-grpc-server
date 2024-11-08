@@ -73,8 +73,8 @@ func (c *ProductController) CreateProduct(w http.ResponseWriter, r *http.Request
 
 }
 func (c *ProductController) GetProduct(w http.ResponseWriter, r *http.Request) {
-	var productId = chi.URLParam(r, "id")
-	var category = r.URL.Query().Get("category")
+	var productId = chi.URLParam(r, "productId")
+	var category = chi.URLParam(r, "categoryName")
 	if productId == "" || category == "" {
 		http.Error(w, "Both category and product id are missing", http.StatusBadRequest)
 		return
@@ -122,8 +122,8 @@ func (c *ProductController) GetProduct(w http.ResponseWriter, r *http.Request) {
 
 }
 func (c *ProductController) DeleteProduct(w http.ResponseWriter, r *http.Request) {
-	var productId = chi.URLParam(r, "id")
-	var category = r.URL.Query().Get("category")
+	var productId = chi.URLParam(r, "productId")
+	var category = chi.URLParam(r, "categoryName")
 	if productId == "" || category == "" {
 		http.Error(w, "Both category and product id are missing", http.StatusBadRequest)
 		return
@@ -224,9 +224,11 @@ func (c *ProductController) ListProducts(w http.ResponseWriter, r *http.Request)
 
 func (c *ProductController) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	// Extract the product ID from the URL
-	productID := chi.URLParam(r, "id")
-	if productID == "" {
-		http.Error(w, "Product ID is required", http.StatusBadRequest)
+	var productID = chi.URLParam(r, "productId")
+	var category = chi.URLParam(r, "categoryName")
+
+	if productID == "" || category == "" {
+		http.Error(w, "Product ID and category is required", http.StatusBadRequest)
 		return
 	}
 
@@ -246,13 +248,15 @@ func (c *ProductController) UpdateProduct(w http.ResponseWriter, r *http.Request
 	updateProductReq := &pb.UpdateProductRequest{
 		ProductId: productID,
 		Product: &pb.Product{
-			Id:        productID, // Keep the original product ID
-			Name:      product.Name,
-			Category:  product.Category,
-			Price:     float64(product.Price),
-			CreatedAt: createdAtProto,
-			UpdatedAt: updatedAtProto,
+			Id:          productID, // Keep the original product ID
+			Name:        product.Name,
+			Category:    category,
+			Description: product.Description,
+			Price:       float64(product.Price),
+			CreatedAt:   createdAtProto,
+			UpdatedAt:   updatedAtProto,
 		},
+		Category: category,
 	}
 
 	// Get the context from the request

@@ -62,6 +62,6 @@ message UpdateOrderResponse {
 service OrderService {
     rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
     rpc DeleteOrder(DeleteOrderRequest) returns (DeleteOrderResponse);
-    rpc Getorder(GetOrderRequest) returns (GetOrderResponse);
+    rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
     rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);
 }

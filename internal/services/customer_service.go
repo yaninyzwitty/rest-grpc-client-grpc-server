@@ -23,11 +23,11 @@ func NewCustomerService(repo repository.CustomerRepository) CustomerService {
 }
 
 func (s *customerService) CreateCustomer(ctx context.Context, customer models.Customer) (*models.Customer, error) {
-	return &models.Customer{}, nil
+	return s.repo.CreateCustomer(ctx, customer)
 }
 func (s *customerService) DeleteCustomer(ctx context.Context, customerID gocql.UUID) (bool, error) {
-	return false, nil
+	return s.repo.DeleteCustomer(ctx, customerID)
 }
 func (s *customerService) GetCustomer(ctx context.Context, customerID gocql.UUID) (*models.Customer, error) {
-	return nil, nil
+	return s.repo.GetCustomer(ctx, customerID)
 }

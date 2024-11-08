@@ -26,11 +26,12 @@ func NewRouter(productController *controller.ProductController, orderController 
 
 	router.Route("/products", func(r chi.Router) {
 		r.Post("/", productController.CreateProduct)
-		r.Get("/{id}", productController.GetProduct)
+		r.Get("/{productId}/category/{categoryName}", productController.GetProduct) // Updated to use correct path with '/' between 'category' and '{categoryName}'
+		r.Delete("/{productId}/category/{categoryName}", productController.DeleteProduct)
 		r.Get("/", productController.ListProducts)
-		r.Put("/", productController.UpdateProduct)
-
+		r.Put("/{productId}/category/{categoryName}", productController.UpdateProduct)
 	})
+
 	router.Route("/customers", func(r chi.Router) {
 		r.Post("/", customerController.CreateCustomer)
 		r.Get("/{id}", customerController.GetCustomer)
@@ -39,9 +40,9 @@ func NewRouter(productController *controller.ProductController, orderController 
 
 	router.Route("/orders", func(r chi.Router) {
 		r.Post("/", orderController.CreateOrder)
-		r.Delete("/", orderController.DeleteOrder)
-		r.Get("/", orderController.Getorder)
-		r.Put("/", orderController.UpdateOrder)
+		r.Get("/{id}", orderController.Getorder)
+		r.Delete("/{id}", orderController.DeleteOrder)
+		r.Put("/{id}", orderController.UpdateOrder)
 	})
 
 	return router
